@@ -48,8 +48,27 @@ contract supplyChain{
         return userId;
     }
 
-    function getParticipants(_participantId) public view returns(string memory, string memory, address)
+    function getParticipants(uint16 _participantId) public view returns(string memory, string memory, address)
     {
         return (participants[_participantId].username, participants[_participantId].participantType, participants[_participantId].participantAddress);
     }
+
+    function addProducts(uint16 _ownerId, uint16 _serialNumber, string memory _name, uint16 _price, uint32 _mfgDate) public returns(uint16)
+    {
+        require(keccak256(abi.encodePacked(participants[_ownerId].participantType)) == keccak256("Manufacturer"), "Only manufacturers authorised to add product");
+        uint16 _productId = productId++;
+        products[_productId].serialNumber = _serialNumber;
+        products[_productId].name = _name;
+        products[_productId].price = _price;
+        products[_productId].mfgDate = _mfgDate;
+        products[_productId].productOwner = participants[_ownerId].participantAddress;
+        return _productId;
+    }
+
+    function getProducts(uint16 _productId) public view returns(uint16, string memory, uint16, uint32, address)
+    {
+        return(products[_productId].serialNumber, products[_productId].name, products[_productId].price, products[_productId].mfgDate, products[_productId].productOwner);
+    }
+
+
 }
