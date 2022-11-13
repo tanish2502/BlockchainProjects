@@ -9,6 +9,7 @@ contract ERC20 is IERC20{
     string public constant coin = "AC";
     uint256 public constant decimal = 18;
     uint256 public constant _totalSupply = 1000;
+    uint256 constant private MAX_UINT256 = 2**256 - 1;
     /*
     below mapping:
     1st adress is allowed to spent uint256 amount of tokens to 2nd addresses.
@@ -54,9 +55,13 @@ contract ERC20 is IERC20{
 
     function transferFrom(address _spender, address _recipient, uint256 _amount) public override returns (bool)
     {
-        require(_balance[_spender] >= _amount);
+        uint256 _allowance = allowed[_spender][msg.sender];
+        require(_balance[_spender] >= _amount && _balance[_spender] >= _allowance, "Insufficient funds to transfer from Sender");
         _balance[_spender] -= _amount;
         _balance[_recipient] += _amount;
+        if(_allowance < MAX_UINT256){
+            allowed[_spender][msg.sender] -= _amount;
+        }
         emit Transfer(_spender, _recipient, _amount);
         return true;
     }
