@@ -70,5 +70,63 @@ contract supplyChain{
         return(products[_productId].serialNumber, products[_productId].name, products[_productId].price, products[_productId].mfgDate, products[_productId].productOwner);
     }
 
+    modifier onlyOwner(uint16 _productId)
+    {
+        require(msg.sender == products[_productId].productOwner);
+        _;
+    }
 
+    function newOwner(uint16 _userId1, uint16 _userId2, uint16 _productId) onlyOwner(_productId) public returns(bool)
+    {
+        participant memory p1 = participants[_userId1];
+        participant memory p2 = participants[_userId2];
+        uint16 ownershipId = ownerId++;
+
+        if(keccak256(abi.encodePacked(p1.participantType)) == keccak256(abi.encodePacked("Manufacturer")) && keccak256(abi.encodePacked(p2.participantType)) == keccak256(abi.encodePacked("Supplier")))
+        {
+            ownerships[ownershipId].productId = _productId;
+            ownerships[ownershipId].ownerId = _userId2;
+            ownerships[ownershipId].trxTimeStamp = uint32(block.timestamp);
+            ownerships[ownershipId].productOwner = p2.participantAddress;
+            products[_productId].productOwner = p2.participantAddress;
+            productTrack[_productId].push(ownershipId);
+            emit transferOwnership(_productId);
+            return true;
+        }
+        else if(keccak256(abi.encodePacked(p1.participantType)) == keccak256(abi.encodePacked("Supplier")) && keccak256(abi.encodePacked(p2.participantType)) == keccak256(abi.encodePacked("Supplier")))
+        {
+            ownerships[ownershipId].productId = _productId;
+            ownerships[ownershipId].ownerId = _userId2;
+            ownerships[ownershipId].trxTimeStamp = uint32(block.timestamp);
+            ownerships[ownershipId].productOwner = p2.participantAddress;
+            products[_productId].productOwner = p2.participantAddress;
+            productTrack[_productId].push(ownershipId);
+            emit transferOwnership(_productId);
+            return true;
+        }
+        else if(keccak256(abi.encodePacked(p1.participantType)) == keccak256(abi.encodePacked("Supplier")) && keccak256(abi.encodePacked(p2.participantType)) == keccak256(abi.encodePacked("Consumer")))
+        {
+            ownerships[ownershipId].productId = _productId;
+            ownerships[ownershipId].ownerId = _userId2;
+            ownerships[ownershipId].trxTimeStamp = uint32(block.timestamp);
+            ownerships[ownershipId].productOwner = p2.participantAddress;
+            products[_productId].productOwner = p2.participantAddress;
+            productTrack[_productId].push(ownershipId);
+            emit transferOwnership(_productId);
+            return true;
+        }
+        return false;
+    }
+
+    //returns all the detail/history for the productId's stages across the supply chain
+    function getProvenance(uint16 _productId) external view returns(uint16[] memory)
+    {
+        return productTrack[_productId];
+    }
+
+    function getOwnership(uint16 _registeredId) public view returns(uint16, uint16, uint32, address)
+    {
+        ownership memory regOwner = ownerships[_registeredId];
+        return (regOwner.productId, regOwner.ownerId, regOwner.trxTimeStamp, regOwner.productOwner);
+    }
 }
