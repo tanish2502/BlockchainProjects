@@ -129,4 +129,16 @@ contract supplyChain{
         ownership memory regOwner = ownerships[_registeredId];
         return (regOwner.productId, regOwner.ownerId, regOwner.trxTimeStamp, regOwner.productOwner);
     }
+
+    function authenticateParticipant(uint16 _userId, string memory _username, string memory _password, string memory _userType) public view returns(bool)
+    {
+        if(keccak256(abi.encodePacked(participants[_userId].participantType)) == keccak256(abi.encodePacked(_userType))) {
+            if(keccak256(abi.encodePacked(participants[_userId].username)) == keccak256(abi.encodePacked(_username))) {
+                if(keccak256(abi.encodePacked(participants[_userId].password)) == keccak256(abi.encodePacked(_password))) {
+                    return (true);
+                }
+            }
+        }
+        return false;
+    }
 }
