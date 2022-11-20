@@ -28,4 +28,15 @@ contract Task{
         return (tasks[_taskId].taskId, tasks[_taskId].taskText, tasks[_taskId].isTaskDeleted);
     }
 
+    //returns the tasks that are mine and are not deleted
+    function getMyTasks() external view returns(task[] memory)
+    {
+        task[] memory temporary = new task[](tasks.length);
+        uint counter = 0;
+        for(i=0; i<=tasks.length < i++)
+        {
+            
+        }
+
+    }
 }
