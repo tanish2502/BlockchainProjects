@@ -23,20 +23,36 @@ contract Task{
         emit AddTask(taskId, msg.sender);
     }
 
-    function getTask(uint _taskId) external view returns(uint, string memory, bool)
-    {
-        return (tasks[_taskId].taskId, tasks[_taskId].taskText, tasks[_taskId].isTaskDeleted);
-    }
-
-    //returns the tasks that are mine and are not deleted
-    function getMyTasks() external view returns(task[] memory)
+    function getMyTask() external view returns(task[] memory)
     {
         task[] memory temporary = new task[](tasks.length);
         uint counter = 0;
-        for(i=0; i<=tasks.length < i++)
-        {
-            
-        }
 
+        //getting all the tasks in temporary array which are not deleted
+        for(uint i = 0; i < tasks.length; i++)
+        {
+            if(taskOfOwner[i] == msg.sender && tasks[i].isTaskDeleted == false)
+            {
+                temporary[counter] = tasks[i];
+                counter++;
+            }
+        }
+        //returning all the sender's tasks in result array
+        task[] memory result = new task[](counter);
+        for(uint i = 0; i < counter; i++)
+        {
+            result[i] = temporary[i];
+        }
+        return result;
     }
+
+    function deletaTask(uint _taskId, bool _isDeleted) external
+    {
+        if(taskOfOwner[_taskId] == msg.sender)
+        {
+            tasks[_taskId].isTaskDeleted = _isDeleted;
+        }
+        emit DeleteTask(_taskId, _isDeleted);
+    }
+
 }
