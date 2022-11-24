@@ -2,7 +2,9 @@
 pragma solidity >= 0.7.0 <0.9.0;
 
 /*
-//Manager handles the cause of the funding
+*****[Tested & Working]*****
+Crowd Funding Description:
+Manager handles the cause of the funding
 3 things to be considered
 1. target
 2. deadline
@@ -44,6 +46,20 @@ contract crowdfunding{
         contributors[msg.sender] += msg.value;
         raisedAmount += msg.value;
     }
+
+    function getContractBalance() public view returns(uint)
+    {
+        return address(this).balance;
+    }
+
     //send collected ether to manager incluing al necessary checks
+    function refund() public
+    {
+        require(block.timestamp > deadline && raisedAmount >= target);
+        require(contributors[msg.sender] > 0);
+        address payable user = payable(msg.sender);
+        user.transfer(contributors[msg.sender]);
+        contributors[msg.sender] = 0;
+    }
 
 }
