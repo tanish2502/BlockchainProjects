@@ -62,4 +62,9 @@ contract crowdfunding{
         contributors[msg.sender] = 0;
     }
 
+    modifier onlyManger(){
+        require(msg.sender==manager,"Only manager can call this function");
+        _;
+    }
+
 }
