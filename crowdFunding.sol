@@ -27,6 +27,17 @@ contract crowdfunding{
     uint public numberOfContributors;
     mapping(address => uint) public contributors;
 
+    struct request{
+        string description;
+        address payable recipient;
+        uint value;
+        bool completed;
+        uint numOfVoters;
+        mapping (address=>bool) voters;
+    }
+    mapping (uint => request) requests;
+    uint public numRequests;
+
     constructor(uint _target, uint _deadline, uint _minimunContri){
         manager = msg.sender;
         target = _target;
@@ -66,5 +77,6 @@ contract crowdfunding{
         require(msg.sender==manager,"Only manager can call this function");
         _;
     }
+
 
 }
