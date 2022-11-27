@@ -36,7 +36,7 @@ contract crowdfunding{
         mapping (address=>bool) voters;
     }
     mapping (uint => request) requests;
-    uint public numRequests;
+    uint public numOfRequests;
 
     constructor(uint _target, uint _deadline, uint _minimunContri){
         manager = msg.sender;
@@ -78,5 +78,17 @@ contract crowdfunding{
         _;
     }
 
+    function createRequest(string memory _description, address payable _recipient, uint _value) public onlyManger
+    {
+        request storage newRequest = requests[numOfRequests];
+        numOfRequests++;
+        newRequest.description = _description;
+        newRequest.recipient = _recipient;
+        newRequest.value = _value;
+        newRequest.completed = false;
+        newRequest.numOfVoters = 0;
+    }
+
+    
 
 }
