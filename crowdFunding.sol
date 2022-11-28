@@ -89,6 +89,14 @@ contract crowdfunding{
         newRequest.numOfVoters = 0;
     }
 
+    function voteRequest(uint _requestNum) public
+    {
+        require(contributors[msg.sender]>0,"You have to be contributor");
+        request storage thisRequest = requests[_requestNum];
+        require(thisRequest.voters[msg.sender]==false, "You have already voted.");
+        thisRequest.voters[msg.sender]=true;
+        thisRequest.numOfVoters++;
+    }
     
 
 }
