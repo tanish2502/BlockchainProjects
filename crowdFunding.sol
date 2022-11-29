@@ -98,5 +98,13 @@ contract crowdfunding{
         thisRequest.numOfVoters++;
     }
     
-
+    function makePayment(uint _requestNum) public onlyManger
+    {
+        require(raisedAmount>=target);
+        request storage thisRequest = requests[_requestNum];
+        require(thisRequest.completed==false, "The request has been completed!!");
+        require(thisRequest.numOfVoters > numberOfContributors/2, "Majority contributors doesn't support");
+        thisRequest.recipient.transfer(thisRequest.value);
+        thisRequest.completed=true;
+    }
 }
