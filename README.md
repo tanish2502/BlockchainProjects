@@ -16,7 +16,8 @@ My practice blockchain projects are available in this repository.
   - SupplyChain Mannagement:  Have made an ERC20 Token which can be used in the transaction(just like we use currency as a medium to purchase anything) 
     Dapp                      in the supplychain across the participants and a supplychain that enables to track the various stages a products goes through
                               from the producer to the consumer with the time it takes for the same.
-  - 
+  - Crowd Funding Dapp:       Made this as it collects the ethers from the participants and then the whole amount is transferred to 1 of the participants
+                              with the approval of all the participants and manager.
  
  - Tools I got to know and worked upon while working on these projects were:
   - Remix Ide:        To write and compile the src code with proper logic implementation for the project.
