@@ -19,10 +19,16 @@ My practice blockchain projects are available in this repository.
   - Crowd Funding Dapp:       Made this as it collects the ethers from the participants and then the whole amount is transferred to 1 of the participants
                               with the approval of all the participants and manager.
  
- - Tools I got to know and worked upon while working on these projects were:
+- Tools I got to know and worked upon while working on these projects were:
   - Remix Ide:        To write and compile the src code with proper logic implementation for the project.
                       Mostly also used to test the writteen code using the test ethers it already have.
   - MetaMask:         Used to test with the test ether's the working of my writtern code.
   - Truffle/hardhat:  To Deploy, test and compile the smart contracts.
   - Ganache:          To test and implement the smart contract on the local blockchain.
+  
+- Steps to install homebrew:
+  - /bin/bash -c "$(curl -fsSL https://gist.githubusercontent.com/nrubin29/bea5aa83e8dfa91370fe83b62dad6dfa/raw/48f48f7fef21abb308e129a80b3214c2538fc611/homebrew_m1.sh)"
+  - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  - If facing timeout issue after giving this above command, follow this steps: https://stackoverflow.com/questions/74833567/facing-issue-to-install-homebrew-on-macbook
+  - After successfull installation, one can check the homebrew version with command "brew -v".
   
